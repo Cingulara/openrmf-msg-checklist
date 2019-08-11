@@ -20,4 +20,4 @@ RUN apt-get update && apt-get -y install ca-certificates
 COPY --from=build-env /app/out ./
 COPY nlog.config /app/nlog.config
 
-ENTRYPOINT ["dotnet", "openrmf-msg-score.dll"]
+ENTRYPOINT ["dotnet", "openrmf-msg-checklist.dll"]

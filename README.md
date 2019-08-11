@@ -27,5 +27,5 @@ Messaging service to respond to internal API requests to receive artifact and ch
 ## connecting to the database collection straight
 ~/mongodb/bin/mongo 'mongodb://openrmf:openrmf1234!@localhost/openrmf?authSource=admin'
 
-## List out the Scores you have inserted/updated
-db.Scores.find();
+## List out the Artifacts you have inserted/updated
+db.Artifacts.find();

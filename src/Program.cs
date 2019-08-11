@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NATS.Client;
 using System.Text;
 using NLog;
@@ -27,8 +28,7 @@ namespace openrmf_msg_checklist
             // Creates a live connection to the default NATS Server running locally
             IConnection c = cf.CreateConnection(Environment.GetEnvironmentVariable("natsserverurl"));
 
-            // Setup an event handler to process incoming messages.
-            // An anonymous delegate function is used for brevity.
+            // send back a checklist based on an individual ID
             EventHandler<MsgHandlerEventArgs> readChecklist = (sender, natsargs) =>
             {
                 try {
@@ -55,11 +55,44 @@ namespace openrmf_msg_checklist
                 }
             };
 
+            // send back a checklist listing based on an the system ID
+            EventHandler<MsgHandlerEventArgs> readSystemChecklists = (sender, natsargs) =>
+            {
+                try {
+                    // print the message
+                    logger.Info("NATS Msg Checklists: {0}", natsargs.Message.Subject);
+                    logger.Info("NATS Msg system data: {0}",Encoding.UTF8.GetString(natsargs.Message.Data));
+                    
+                    IEnumerable<Artifact> arts;
+                    Settings s = new Settings();
+                    s.ConnectionString = Environment.GetEnvironmentVariable("mongoConnection");
+                    s.Database = Environment.GetEnvironmentVariable("mongodb");
+                    ArtifactRepository _artifactRepo = new ArtifactRepository(s);
+                    arts = _artifactRepo.GetSystemArtifacts(Encoding.UTF8.GetString(natsargs.Message.Data)).Result;
+                    // remove the rawChecklist as we do not need all that data, just the main metadata for listing
+                    foreach(Artifact a in arts) {
+                        a.rawChecklist = "";
+                    }
+                    // now publish it back out w/ the reply subject
+                    string msg = JsonConvert.SerializeObject(arts);
+                    // publish back out on the reply line to the calling publisher
+                    logger.Info("Sending back compressed Checklist Data");
+                    c.Publish(natsargs.Message.Reply, Encoding.UTF8.GetBytes(Compression.CompressString(msg)));
+                    c.Flush(); // flush the line
+                }
+                catch (Exception ex) {
+                    // log it here
+                    logger.Error(ex, "Error retrieving checklist record for artifactId {0}", Encoding.UTF8.GetString(natsargs.Message.Data));
+                }
+            };
+            
             // The simple way to create an asynchronous subscriber
             // is to simply pass the event in.  Messages will start
             // arriving immediately.
             logger.Info("setting up the openRMF checklist subscription");
             IAsyncSubscription asyncNew = c.SubscribeAsync("openrmf.checklist.read", readChecklist);
+            logger.Info("setting up the openRMF system checklist listing subscription");
+            IAsyncSubscription asyncNewSystemChecklists = c.SubscribeAsync("openrmf.system.checklists.read", readSystemChecklists);
         }
 
         private static ObjectId GetInternalId(string id)

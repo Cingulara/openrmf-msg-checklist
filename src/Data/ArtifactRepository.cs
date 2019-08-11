@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using System.Linq;
 
 namespace openrmf_msg_checklist.Data {
     public class ArtifactRepository : IArtifactRepository
@@ -31,6 +32,20 @@ namespace openrmf_msg_checklist.Data {
             try
             {
                 return await _context.Artifacts.Find(artifact => artifact.InternalId == GetInternalId(id)).FirstOrDefaultAsync();
+            }
+            catch (Exception ex)
+            {
+                // log or manage the exception
+                throw ex;
+            }
+        }
+
+        public async Task<IEnumerable<Artifact>> GetSystemArtifacts(string system)
+        {
+            try
+            {
+                var query = await _context.Artifacts.FindAsync(artifact => artifact.system == system);
+                return query.ToList().OrderBy(x => x.title);
             }
             catch (Exception ex)
             {

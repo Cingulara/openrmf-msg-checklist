@@ -13,7 +13,6 @@
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart",
             "env": {
-                "openrmf-api-read-server" : "http://localhost:8084",
                 "mongoConnection": "mongodb://openrmf:openrmf1234!@localhost/openrmf?authSource=admin",
                 "mongodb": "openrmf",
                 "natsserverurl": "nats://127.0.0.1:4222"

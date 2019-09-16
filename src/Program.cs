@@ -26,7 +26,7 @@ namespace openrmf_msg_checklist
             ConnectionFactory cf = new ConnectionFactory();
 
             // Creates a live connection to the default NATS Server running locally
-            IConnection c = cf.CreateConnection(Environment.GetEnvironmentVariable("natsserverurl"));
+            IConnection c = cf.CreateConnection(Environment.GetEnvironmentVariable("NATSSERVERURL"));
 
             // send back a checklist based on an individual ID
             EventHandler<MsgHandlerEventArgs> readChecklist = (sender, natsargs) =>
@@ -38,8 +38,8 @@ namespace openrmf_msg_checklist
                     
                     Artifact art = new Artifact();
                     Settings s = new Settings();
-                    s.ConnectionString = Environment.GetEnvironmentVariable("mongoConnection");
-                    s.Database = Environment.GetEnvironmentVariable("mongodb");
+                    s.ConnectionString = Environment.GetEnvironmentVariable("MONGODBCONNECTION");
+                    s.Database = Environment.GetEnvironmentVariable("MONGODB");
                     ArtifactRepository _artifactRepo = new ArtifactRepository(s);
                     art = _artifactRepo.GetArtifact(Encoding.UTF8.GetString(natsargs.Message.Data)).Result;
                     // now publish it back out w/ the reply subject
@@ -65,8 +65,8 @@ namespace openrmf_msg_checklist
                     
                     IEnumerable<Artifact> arts;
                     Settings s = new Settings();
-                    s.ConnectionString = Environment.GetEnvironmentVariable("mongoConnection");
-                    s.Database = Environment.GetEnvironmentVariable("mongodb");
+                    s.ConnectionString = Environment.GetEnvironmentVariable("MONGODBCONNECTION");
+                    s.Database = Environment.GetEnvironmentVariable("MONGODB");
                     ArtifactRepository _artifactRepo = new ArtifactRepository(s);
                     arts = _artifactRepo.GetSystemArtifacts(Encoding.UTF8.GetString(natsargs.Message.Data)).Result;
                     // remove the rawChecklist as we do not need all that data, just the main metadata for listing

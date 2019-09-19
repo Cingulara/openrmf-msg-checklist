@@ -42,8 +42,10 @@ namespace openrmf_msg_checklist
                     s.Database = Environment.GetEnvironmentVariable("MONGODB");
                     ArtifactRepository _artifactRepo = new ArtifactRepository(s);
                     art = _artifactRepo.GetArtifact(Encoding.UTF8.GetString(natsargs.Message.Data)).Result;
-                    // now publish it back out w/ the reply subject
-                    string msg = JsonConvert.SerializeObject(art).Replace("\\t","");
+                    // when you serialize the \\ slash JSON chokes, so replace and regular \\ with 4 \\\\
+                    art.rawChecklist = art.rawChecklist.Replace("\\","\\\\");
+                    // now serialize the class into a string to compress and send
+                    string msg = JsonConvert.SerializeObject(art);
                     // publish back out on the reply line to the calling publisher
                     logger.Info("Sending back compressed Checklist Data");
                     c.Publish(natsargs.Message.Reply, Encoding.UTF8.GetBytes(Compression.CompressString(msg)));

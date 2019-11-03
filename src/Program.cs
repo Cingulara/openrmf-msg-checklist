@@ -37,9 +37,11 @@ namespace openrmf_msg_checklist
                     logger.Info("New NATS data: {0}",Encoding.UTF8.GetString(natsargs.Message.Data));
                     
                     Artifact art = new Artifact();
+                    // setup the MongoDB connection
                     Settings s = new Settings();
                     s.ConnectionString = Environment.GetEnvironmentVariable("MONGODBCONNECTION");
                     s.Database = Environment.GetEnvironmentVariable("MONGODB");
+                    // setup the MongoDB repo connection
                     ArtifactRepository _artifactRepo = new ArtifactRepository(s);
                     art = _artifactRepo.GetArtifact(Encoding.UTF8.GetString(natsargs.Message.Data)).Result;
                     // when you serialize the \\ slash JSON chokes, so replace and regular \\ with 4 \\\\
@@ -57,7 +59,7 @@ namespace openrmf_msg_checklist
                 }
             };
 
-            // send back a checklist listing based on an the system ID
+            // send back a checklist listing based on the system ID
             EventHandler<MsgHandlerEventArgs> readSystemChecklists = (sender, natsargs) =>
             {
                 try {
@@ -66,9 +68,11 @@ namespace openrmf_msg_checklist
                     logger.Info("NATS Msg system data: {0}",Encoding.UTF8.GetString(natsargs.Message.Data));
                     
                     IEnumerable<Artifact> arts;
+                    // setup the MondoDB connection
                     Settings s = new Settings();
                     s.ConnectionString = Environment.GetEnvironmentVariable("MONGODBCONNECTION");
                     s.Database = Environment.GetEnvironmentVariable("MONGODB");
+                    // setup the database repo
                     ArtifactRepository _artifactRepo = new ArtifactRepository(s);
                     arts = _artifactRepo.GetSystemArtifacts(Encoding.UTF8.GetString(natsargs.Message.Data)).Result;
                     // remove the rawChecklist as we do not need all that data, just the main metadata for listing

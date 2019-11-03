@@ -1,5 +1,5 @@
 # openrmf-msg-checklist
-Messaging service to respond to internal API requests to receive artifact and checklist information using a NATS Request/Repl scenario.
+Messaging service to respond to internal API requests to receive artifact and checklist information using a NATS Request/Reply scenario.
 * openrmf.checklist.read
 
 ## Running the NATS docker images

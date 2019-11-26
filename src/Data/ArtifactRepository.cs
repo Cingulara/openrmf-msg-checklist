@@ -40,11 +40,11 @@ namespace openrmf_msg_checklist.Data {
             }
         }
 
-        public async Task<IEnumerable<Artifact>> GetSystemArtifacts(string system)
+        public async Task<IEnumerable<Artifact>> GetSystemArtifacts(string systemGroupId)
         {
             try
             {
-                var query = await _context.Artifacts.FindAsync(artifact => artifact.system == system);
+                var query = await _context.Artifacts.FindAsync(artifact => artifact.systemGroupId == systemGroupId);
                 return query.ToList().OrderBy(x => x.title);
             }
             catch (Exception ex)

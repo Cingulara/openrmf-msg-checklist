@@ -1,4 +1,4 @@
-VERSION ?= 0.11
+VERSION ?= 0.12.2
 NAME ?= "openrmf-msg-checklist"
 AUTHOR ?= "Dale Bingham"
 NO_CACHE ?= true

@@ -1,5 +1,5 @@
 using Xunit;
-using openrmf_msg_score.Models;
+using openrmf_msg_checklist.Models;
 using System;
 
 namespace tests.Models
@@ -18,19 +18,21 @@ namespace tests.Models
         {
             Artifact art = new Artifact();
             art.created = DateTime.Now;
-            art.system = "my system";
+            art.systemGroupId = "bab8675a867b578d658fd5b876";
             art.hostName = "myHost";
             art.stigType = "Google Chrome";
             art.stigRelease = "Version 1";
+            art.version = "1";
             art.updatedOn = DateTime.Now;
 
             // test things out
             Assert.True(art != null);
             Assert.True (!string.IsNullOrEmpty(art.created.ToShortDateString()));
-            Assert.True (!string.IsNullOrEmpty(art.system));
+            Assert.True (!string.IsNullOrEmpty(art.systemGroupId));
             Assert.True (!string.IsNullOrEmpty(art.hostName));
             Assert.True (!string.IsNullOrEmpty(art.stigType));
             Assert.True (!string.IsNullOrEmpty(art.stigRelease));
+            Assert.True (!string.IsNullOrEmpty(art.version));
             Assert.True (!string.IsNullOrEmpty(art.title));  // readonly from other fields
             Assert.True (art.updatedOn.HasValue);
             Assert.True (!string.IsNullOrEmpty(art.updatedOn.Value.ToShortDateString()));

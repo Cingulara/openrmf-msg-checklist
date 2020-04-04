@@ -10,7 +10,7 @@ namespace openrmf_msg_checklist.Models
     public class Artifact
     {
         public Artifact () {
-
+            CHECKLIST = new CHECKLIST();
         }
 
         public DateTime created { get; set; }

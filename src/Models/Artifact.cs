@@ -10,7 +10,7 @@ namespace openrmf_msg_checklist.Models
     public class Artifact
     {
         public Artifact () {
-
+            CHECKLIST = new CHECKLIST();
         }
 
         public DateTime created { get; set; }
@@ -21,10 +21,12 @@ namespace openrmf_msg_checklist.Models
         public string hostName { get; set;}
         public string stigType { get; set; }
         public string stigRelease { get; set; }
+        public string version {get; set;}
         public string title { get {
-            return hostName.Trim() + "-" + stigType.Trim() + "-" + stigRelease.Trim();
+            return hostName.Trim() + "-" + stigType.Trim() + "-V" + version + "-" + stigRelease.Trim();
         }}
 
+        public CHECKLIST CHECKLIST { get; set; }
         public string rawChecklist { get; set; }
         
         [BsonId]

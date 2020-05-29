@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <RootNamespace>openrmf_msg_checklist</RootNamespace>
     <ProjectGuid>{c2d6549c-604e-408f-b719-a95452cf6cb9}</ProjectGuid>
-    <Version>0.11</Version>
+    <Version>0.15.01</Version>
     <InformationalVersion>This is a beta of the OpenRMF Tool Messaging API for reading checklists via messaging from Cingulara</InformationalVersion>
   </PropertyGroup>
 

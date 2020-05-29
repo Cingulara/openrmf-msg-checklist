@@ -1,6 +1,9 @@
+![.NET Core Build and Test](https://github.com/Cingulara/openrmf-msg-checklist/workflows/.NET%20Core%20Build%20and%20Test/badge.svg)
+
 # openrmf-msg-checklist
 Messaging service to respond to internal API requests to receive artifact and checklist information using a NATS Request/Reply scenario.
-* openrmf.checklist.read
+* openrmf.checklist.read to get a single checklist
+* openrmf.system.checklists.read to get all checklists for a given system
 
 ## Running the NATS docker images
 * docker run --rm --name nats-main -p 4222:4222 -p 6222:6222 -p 8222:8222 nats:2.1.2-linux

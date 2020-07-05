@@ -69,8 +69,10 @@ namespace openrmf_msg_checklist
                     Artifact art = new Artifact();
                     // setup the MongoDB connection
                     Settings s = new Settings();
-                    s.ConnectionString = Environment.GetEnvironmentVariable("MONGODBCONNECTION");
-                    s.Database = Environment.GetEnvironmentVariable("MONGODB");
+                    if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DBTYPE")) || Environment.GetEnvironmentVariable("DBTYPE").ToLower() == "mongo") {
+                        s.ConnectionString = Environment.GetEnvironmentVariable("DBCONNECTION");
+                        s.Database = Environment.GetEnvironmentVariable("DB");
+                    }
                     // setup the MongoDB repo connection
                     ArtifactRepository _artifactRepo = new ArtifactRepository(s);
                     art = _artifactRepo.GetArtifact(Encoding.UTF8.GetString(natsargs.Message.Data)).Result;
@@ -100,8 +102,10 @@ namespace openrmf_msg_checklist
                     IEnumerable<Artifact> arts;
                     // setup the MondoDB connection
                     Settings s = new Settings();
-                    s.ConnectionString = Environment.GetEnvironmentVariable("MONGODBCONNECTION");
-                    s.Database = Environment.GetEnvironmentVariable("MONGODB");
+                    if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DBTYPE")) || Environment.GetEnvironmentVariable("DBTYPE").ToLower() == "mongo") {
+                        s.ConnectionString = Environment.GetEnvironmentVariable("DBCONNECTION");
+                        s.Database = Environment.GetEnvironmentVariable("DB");
+                    }
                     // setup the database repo
                     ArtifactRepository _artifactRepo = new ArtifactRepository(s);
                     arts = _artifactRepo.GetSystemArtifacts(Encoding.UTF8.GetString(natsargs.Message.Data)).Result;

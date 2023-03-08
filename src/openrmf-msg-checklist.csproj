@@ -5,14 +5,14 @@
     <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>openrmf_msg_checklist</RootNamespace>
     <ProjectGuid>{c2d6549c-604e-408f-b719-a95452cf6cb9}</ProjectGuid>
-    <Version>1.08.00</Version>
+    <Version>1.09.01</Version>
     <InformationalVersion>This is the OpenRMF Tool Messaging API for reading checklists via messaging from Cingulara</InformationalVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="NATS.Client" Version="0.10.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="mongodb.driver" Version="2.14.1" />
+    <PackageReference Include="mongodb.driver" Version="2.19.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="NLog" Version="4.7.13" />
     <PackageReference Include="NLog.Extensions.Logging" Version="1.7.4" />
